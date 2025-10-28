@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ticket Management System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="min-h-screen bg-gray-50">
+
+{# Header/Navigation #}
+<header class="bg-white shadow-sm border-b border-gray-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center py-4">
+            <div class="flex items-center">
+                <h1 class="text-xl font-bold text-gray-900">TicketFlow</h1>
+            </div>
+            <nav class="hidden md:flex space-x-8">
+                <a href="#features" class="text-gray-600 hover:text-gray-900">Features</a>
+                <a href="#how-it-works" class="text-gray-600 hover:text-gray-900">How it Works</a>
+                <a href="#pricing" class="text-gray-600 hover:text-gray-900">Pricing</a>
+                <a href="#faq" class="text-gray-600 hover:text-gray-900">FAQ</a>
+            </nav>
+            <div class="flex items-center space-x-4">
+                <a href="/login" class="text-gray-600 hover:text-gray-900">Login</a>
+                <a href="/signup" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">Get Started</a>
+            </div>
+        </div>
+    </div>
+</header>
+
+{# Hero Section #}
+<section class="relative pt-10 pb-20 overflow-hidden max-w-[1440px]">
+    <div class="absolute inset-0 z-0 pointer-events-none">
+        <svg class="absolute bottom-0 left-0 w-full h-auto" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" preserveAspectRatio="xMidYMax slice">
+            <defs>
+                <linearGradient id="waveGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" style="stop-color: #E0F2FE; stop-opacity: 1" />
+                    <stop offset="50%" style="stop-color: #BAE6FD; stop-opacity: 1" />
+                    <stop offset="100%" style="stop-color: #7DD3FC; stop-opacity: 1" />
+                </linearGradient>
+            </defs>
+            <path fill="url(#waveGradient)" fillOpacity="0.8" d="M0,192L48,181.3C96,171,192,149,288,149.3C384,149,480,171,576,149.3C672,128,768,64,864,80C960,96,1056,192,1152,218.7C1248,245,1344,203,1392,181.3L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"/>
+        </svg>
+    </div>
+
+    <div class="max-w-7xl mx-auto relative z-10 px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div class="flex flex-col lg:w-[120%] items-center text-center lg:items-start lg:text-left">
+                <p class="text-sm text-gray-600 mb-4">Modern ticket management</p>
+                <h1 class="text-5xl md:text-6xl font-extrabold text-gray-900 mb-6 leading-tight tracking-tight">
+                    Resolve requests faster with a clean, powerful workflow
+                </h1>
+                <p class="text-base text-gray-600 mb-8 max-w-xl leading-relaxed">
+                    TicketFlow centralizes customer requests, automates routing, and gives your team the clarity to respond quickly and consistently—at any scale.
+                </p>
+                <div class="flex items-center gap-4">
+                    <a href="/login" class="bg-transparent cursor-pointer text-gray-900 px-6 py-2.5 rounded-lg font-semibold hover:bg-sky-50 transition-all">
+                        Login
+                    </a>
+                    <a href="/signup" class="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors">
+                        Get Started
+                    </a>
+                </div>
+            </div>
+            <div class="flex justify-center lg:justify-end">
+                <div class="bg-white rounded-xl shadow-lg p-6 max-w-md w-full hover:shadow-xl transition-shadow">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center gap-2">
+                            <span class="text-sm font-semibold text-gray-900">New ticket</span>
+                            <span class="text-sm text-gray-400">•</span>
+                            <span class="text-sm text-gray-600">Website bug</span>
+                        </div>
+                        <span class="text-xs px-2 py-1 bg-sky-50 text-gray-600 rounded">Open</span>
+                    </div>
+
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm text-gray-600">Priority</span>
+                            <span class="text-sm font-semibold text-gray-900">High</span>
+                        </div>
+
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm text-gray-600">SLA</span>
+                            <span class="text-sm text-gray-600">2h remaining</span>
+                        </div>
+
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm text-gray-600">Channel</span>
+                            <span class="text-sm text-gray-900">Email</span>
+                        </div>
+
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm text-gray-600">Assigned to</span>
+                            <div class="flex items-center gap-2">
+                                <img src="https://i.pravatar.cc/150?img=1" alt="User avatar" class="w-6 h-6 rounded-full">
+                                <span class="text-sm text-gray-900">Dana</span>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center justify-between pt-2">
+                            <span class="text-sm text-gray-600">Next step</span>
+                            <span class="text-xs px-3 py-1 bg-emerald-500 text-white rounded-full font-semibold">Reply</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{# Features Section #}
+<section id="features" class="py-20 px-6 bg-white">
+    <div class="max-w-7xl mx-auto">
+        <div class="text-center mb-16">
+            <h2 class="text-4xl font-bold text-gray-900 mb-4">Everything your team needs</h2>
+            <p class="text-base text-gray-600">Simple, powerful tools to receive, triage, and resolve tickets.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="p-6 rounded-lg border border-gray-200 shadow-xl">
+                <div class="w-8 bg-blue-50 rounded-lg flex items-center justify-center mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" class="size-6" color="#2563EB" size="28">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 13.5h3.86a2.25 2.25 0 0 1 2.012 1.244l.256.512a2.25 2.25 0 0 0 2.013 1.244h3.218a2.25 2.25 0 0 0 2.013-1.244l.256-.512a2.25 2.25 0 0 1 2.013-1.244h3.859m-19.5.338V18a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18v-4.162c0-.224-.034-.447-.1-.661L19.24 5.338a2.25 2.25 0 0 0-2.15-1.588H6.911a2.25 2.25 0 0 0-2.15 1.588L2.35 13.177a2.25 2.25 0 0 0-.1.661Z"/>
+                    </svg>
+                </div>
+                <h3 class="text-2xl font-semibold text-gray-900 mb-3">Unified Inbox</h3>
+                <p class="text-base text-gray-600 mb-4">All requests from email, chat, and forms in one queue with clear ownership.</p>
+                <ul class="space-y-2">
+                    <li class="text-sm text-gray-600">• Merge duplicates</li>
+                    <li class="text-sm text-gray-600">• Bulk actions</li>
+                    <li class="text-sm text-gray-600">• SLA timers</li>
+                </ul>
+            </div>
+
+            <div class="p-6 rounded-lg border border-gray-200 shadow-xl">
+                <div class="w-8 bg-blue-50 rounded-lg flex items-center justify-center mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" class="size-6" color="#2563EB">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09ZM18.259 8.715 18 9.75l-.259-1.035a3.375 3.375 0 0 0-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 0 0 2.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 0 0 2.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 0 0-2.456 2.456ZM16.894 20.567 16.5 21.75l-.394-1.183a2.25 2.25 0 0 0-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 0 0 1.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 0 0 1.423 1.423l1.183.394-1.183.394a2.25 2.25 0 0 0-1.423 1.423Z"/>
+                    </svg>
+                </div>
+                <h3 class="text-2xl font-semibold text-gray-900 mb-3">Automation</h3>
+                <p class="text-base text-gray-600 mb-4">Auto-assign, tag, and escalate based on rules—keep work moving.</p>
+                <ul class="space-y-2">
+                    <li class="text-sm text-gray-600">• Rules & triggers</li>
+                    <li class="text-sm text-gray-600">• Macros</li>
+                    <li class="text-sm text-gray-600">• Workflows</li>
+                </ul>
+            </div>
+
+            <div class="p-6 rounded-lg border border-gray-200 shadow-xl">
+                <div class="w-8 bg-blue-50 rounded-lg flex items-center justify-center mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" class="size-6" color="#2563EB">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 18 9 11.25l4.306 4.306a11.95 11.95 0 0 1 5.814-5.518l2.74-1.22m0 0-5.94-2.281m5.94 2.28-2.28 5.941"/>
+                    </svg>
+                </div>
+                <h3 class="text-2xl font-semibold text-gray-900 mb-3">Insights</h3>
+                <p class="text-base text-gray-600 mb-4">Understand performance with dashboards for volume, SLAs, and CSAT.</p>
+                <ul class="space-y-2">
+                    <li class="text-sm text-gray-600">• Team metrics</li>
+                    <li class="text-sm text-gray-600">• Trends</li>
+                    <li class="text-sm text-gray-600">• Exports</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+{# How It Works Section #}
+<section id="how-it-works" class="py-20 px-6 bg-gray-50">
+    <div class="max-w-7xl mx-auto">
+        <div class="text-center mb-16">
+            <h2 class="text-4xl font-bold text-gray-900 mb-4">How it works</h2>
+            <p class="text-base text-gray-600">From intake to resolution in three simple steps.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="bg-sky-50 rounded-2xl p-8 text-center shadow-md">
+                <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-6 shadow-md">
+                    <span class="text-3xl font-bold text-blue-600">1</span>
+                </div>
+                <h3 class="text-2xl font-semibold text-gray-900 mb-3">Capture</h3>
+                <p class="text-base text-gray-600 mb-6">Connect email, chat, and forms. Everything lands in your inbox.</p>
+                <div class="bg-white rounded-lg p-6 shadow-sm">
+                    <p class="text-sm font-semibold text-gray-900">Intake Channels</p>
+                </div>
+            </div>
+
+            <div class="bg-sky-50 rounded-2xl p-8 text-center shadow-md">
+                <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-6 shadow-md">
+                    <span class="text-3xl font-bold text-blue-600">2</span>
+                </div>
+                <h3 class="text-2xl font-semibold text-gray-900 mb-3">Route</h3>
+                <p class="text-base text-gray-600 mb-6">Use rules and SLAs to prioritize and assign automatically.</p>
+                <div class="bg-white rounded-lg p-6 shadow-sm">
+                    <p class="text-sm font-semibold text-gray-900">Smart Routing</p>
+                </div>
+            </div>
+
+            <div class="bg-sky-50 rounded-2xl p-8 text-center shadow-md">
+                <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-6 shadow-md">
+                    <span class="text-3xl font-bold text-blue-600">3</span>
+                </div>
+                <h3 class="text-2xl font-semibold text-gray-900 mb-3">Resolve</h3>
+                <p class="text-base text-gray-600 mb-6">Reply with templates, collaborate, and close with confidence.</p>
+                <div class="bg-white rounded-lg p-6 shadow-sm">
+                    <p class="text-sm font-semibold text-gray-900">Resolution</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{# Pricing Section #}
+<section id="pricing" class="py-20 px-6 bg-white">
+    <div class="max-w-7xl mx-auto">
+        <div class="text-center mb-16">
+            <h2 class="text-4xl font-bold text-gray-900 mb-4">Simple pricing</h2>
+            <p class="text-base text-gray-600">Start free. Upgrade as your team grows.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="border border-gray-200 rounded-2xl p-8">
+                <h3 class="text-2xl font-semibold text-gray-900 mb-2">Starter</h3>
+                <p class="text-sm text-gray-600 mb-6">For individuals and small teams.</p>
+
+                <ul class="space-y-3 mb-8">
+                    <li class="flex items-start gap-3">
+                        <svg color="#2563EB" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/>
+                        </svg>
+                        <span class="text-sm text-gray-600">Up to 3 agents</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <svg color="#2563EB" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/>
+                        </svg>
+                        <span class="text-sm text-gray-600">Basic automations</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-blue-600">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/>
+                        </svg>
+                        <span class="text-sm text-gray-600">Basic automations</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-blue-600">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/>
+                        </svg>
+                        <span class="text-sm text-gray-600">Standard SLAs</span>
+                    </li>
+                </ul>
+
+                <a href="/signup" class="w-full bg-blue-600 text-white py-2.5 px-6 rounded-lg font-semibold hover:bg-blue-700 transition-colors block text-center">
+                    Get Started
+                </a>
+            </div>
+
+            <div class="border-2 border-blue-600 rounded-2xl p-8 relative">
+                <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-blue-600 text-white text-xs px-4 py-1 rounded-full">
+                    Popular
+                </div>
+                <h3 class="text-2xl font-semibold text-gray-900 mb-2">Growth</h3>
+                <p class="text-sm text-gray-600 mb-6">For growing support teams.</p>
+
+                <ul class="space-y-3 mb-8">
+                    <li class="flex items-start gap-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-blue-600 mt-0.5 shrink-0">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/>
+                        </svg>
+                        <span class="text-sm text-gray-600">Unlimited agents</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-blue-600 mt-0.5 shrink-0">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/>
+                        </svg>
+                        <span class="text-sm text-gray-600"> Advanced workflows </span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-blue-600 mt-0.5 shrink-0">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/>
+                        </svg>
+                        <span class="text-sm text-gray-600">Analytics</span>
+                    </li>
+                </ul>
+
+                <a href="/signup" class="w-full bg-blue-600 text-white py-2.5 px-6 rounded-lg font-semibold hover:bg-blue-700 transition-colors block text-center">
+                    Contact Sales
+                </a>
+            </div>
+
+            <div class="border border-gray-200 rounded-2xl p-8">
+                <h3 class="text-2xl font-semibold text-gray-900 mb-2">Enterprise</h3>
+                <p class="text-sm text-gray-600 mb-6">Security and control at scale.</p>
+
+                <ul class="space-y-3 mb-8">
+                    <li class="flex items-start gap-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-blue-600 mt-0.5 shrink-0">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/>
+                        </svg>
+                        <span class="text-sm text-gray-600">SAML SSO</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-blue-600 mt-0.5 shrink-0">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/>
+                        </svg>
+                        <span class="text-sm text-gray-600">Custom SLAs</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-blue-600 mt-0.5 shrink-0">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/>
+                        </svg>
+                        <span class="text-sm text-gray-600">Dedicated support</span>
+                    </li>
+                </ul>
+
+                <button class="w-full cursor-pointer border-2 border-blue-600 text-blue-600 py-2.5 px-6 rounded-lg font-semibold hover:bg-sky-50 transition-colors">
+                    Talk to Us
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+
+{# FAQ Section #}
+<section id="faq" class="py-20 px-6 bg-gray-50">
+    <div class="max-w-7xl mx-auto">
+        <div class="text-center mb-16">
+            <h2 class="text-4xl font-bold text-gray-900 mb-4">FAQs</h2>
+            <p class="text-base text-gray-600">Answers to common questions.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="bg-white rounded-xl p-6 shadow-sm">
+                <h3 class="text-2xl font-semibold text-gray-900 mb-3">Can I import from my current tool?</h3>
+                <p class="text-base text-gray-600">Yes. Use our CSV importer or API to migrate tickets and users.</p>
+            </div>
+
+            <div class="bg-white rounded-xl p-6 shadow-sm">
+                <h3 class="text-2xl font-semibold text-gray-900 mb-3">Do you offer SLAs?</h3>
+                <p class="text-base text-gray-600">Absolutely. Create SLA policies by priority and channel.</p>
+            </div>
+
+            <div class="bg-white rounded-xl p-6 shadow-sm">
+                <h3 class="text-2xl font-semibold text-gray-900 mb-3">Is there an API?</h3>
+                <p class="text-base text-gray-600">Yes, a REST API is available for custom integrations.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+{# Footer CTA #}
+<section class="py-20 px-6 bg-white">
+    <div class="max-w-4xl mx-auto text-center">
+        <h2 class="text-4xl font-bold text-gray-900 mb-6">Ready to streamline your support?</h2>
+        <p class="text-base text-gray-600 mb-8">Create your workspace in minutes and invite your team.</p>
+        <div class="flex items-center justify-center gap-4">
+            <a href="/login" class="bg-transparent cursor-pointer text-gray-900 px-6 py-2.5 rounded-lg font-semibold hover:bg-sky-50 transition-all">
+                Login
+            </a>
+            <a href="/signup" class="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors">
+                Get Started
+            </a>
+        </div>
+    </div>
+</section>
+
+{# Footer #}
+<footer class="bg-gray-900 text-white py-12 px-6">
+    <div class="max-w-7xl mx-auto">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+            <div class="md:col-span-2">
+                <h3 class="text-xl font-bold mb-4">TicketFlow</h3>
+                <p class="text-gray-400 mb-4">
+                    Streamline your customer support with powerful automation and intelligent routing.
+                </p>
+                <div class="flex space-x-4">
+                    <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-linkedin"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+
+            <div>
+                <h4 class="font-semibold mb-4">Product</h4>
+                <ul class="space-y-2 text-gray-400">
+                    <li><a href="#features" class="hover:text-white">Features</a></li>
+                    <li><a href="#pricing" class="hover:text-white">Pricing</a></li>
+                    <li><a href="#" class="hover:text-white">Security</a></li>
+                    <li><a href="#" class="hover:text-white">Integrations</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="font-semibold mb-4">Company</h4>
+                <ul class="space-y-2 text-gray-400">
+                    <li><a href="#" class="hover:text-white">About</a></li>
+                    <li><a href="#" class="hover:text-white">Blog</a></li>
+                    <li><a href="#" class="hover:text-white">Careers</a></li>
+                    <li><a href="#" class="hover:text-white">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="border-t border-gray-800 pt-8 text-center text-gray-400">
+            <p>&copy; 2024 TicketFlow. All rights reserved.</p>
+        </div>
+    </div>
+</footer>
+
+</body>
+</html>
