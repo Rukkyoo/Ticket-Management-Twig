@@ -1,12 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - TicketFlow</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="min-h-screen bg-gradient-to-br from-sky-50 via-blue-50 to-indigo-50 flex items-center justify-center px-4">
+{% extends "base.twig" %}
+
+{% block title %}Login - TicketFlow{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gradient-to-br from-sky-50 via-blue-50 to-indigo-50 flex items-center justify-center px-4">
 
     <div class="max-w-md w-full">
         <div class="text-center mb-8">
@@ -106,6 +103,5 @@
             </a>
         </div>
     </div>
-
-</body>
-</html>
+</div>
+{% endblock %}

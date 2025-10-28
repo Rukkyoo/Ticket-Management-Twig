@@ -1,22 +1,34 @@
-# Twig Starter Template 🚀
+# TicketFlow - Modern Ticket Management System 🎫
 
-A modern PHP starter template with [Twig](https://twig.symfony.com/) templating engine and [Tailwind CSS v4](https://tailwindcss.com/) integration. Perfect for building fast, maintainable PHP applications with beautiful UI.
+A comprehensive ticket management application built with PHP, Twig templating, and Tailwind CSS. Features a clean, modern interface for creating, managing, and tracking support tickets with real-time API integration.
 
-**With love from [uCodes](https://github.com/python-fuse)** 💙
 
 ---
 
-## 📋 Prerequisites
+##  Features
+
+-  **Modern UI/UX** - Clean, responsive design with Tailwind CSS
+-  **Full CRUD Operations** - Create, Read, Update, Delete tickets
+-  **Advanced Search** - Filter tickets by title or ID
+-  **Dashboard Analytics** - Overview of ticket statistics
+-  **Authentication System** - User login and registration
+-  **Mobile Responsive** - Works seamlessly on all devices
+-  **Real-time Updates** - Live ticket status and information
+-  **API Integration** - Connects to external ticket management APIs
+
+---
+
+##  Prerequisites
 
 Before you begin, ensure you have the following installed:
 
-### 1. **PHP** (>= 7.4)
+### 1. **PHP** (>= 8.0)
 
 - **Check if installed:** `php --version`
 - **Install:**
-  - **Ubuntu/Debian:** `sudo apt update && sudo apt install php php-cli php-mbstring`
+  - **Windows:** [Download PHP 8.0+](https://windows.php.net/download/)
+  - **Ubuntu/Debian:** `sudo apt update && sudo apt install php php-cli php-mbstring php-curl`
   - **macOS:** `brew install php`
-  - **Windows:** [Download PHP](https://windows.php.net/download/)
 
 ### 2. **Composer** (PHP Dependency Manager)
 
@@ -28,23 +40,21 @@ Before you begin, ensure you have the following installed:
   sudo mv composer.phar /usr/local/bin/composer
   ```
 
-### 3. **Node.js & npm** (for Tailwind CSS)
+### 3. **Node.js & npm** (for Frontend Assets)
 
 - **Check if installed:** `node --version && npm --version`
 - **Install:** [nodejs.org](https://nodejs.org/) (LTS version recommended)
-  - **Ubuntu/Debian:** `sudo apt install nodejs npm`
-  - **macOS:** `brew install node`
 
 ---
 
-## 🚀 Quick Start
+##  Quick Start
 
 ### 1. Clone & Install Dependencies
 
 ```bash
-# Clone the repository (or download ZIP)
+# Clone the repository
 git clone <your-repo-url>
-cd twig-starter-template
+cd ticketflow
 
 # Install PHP dependencies
 composer install
@@ -53,233 +63,222 @@ composer install
 npm install
 ```
 
-### 2. Build Tailwind CSS
+### 2. Build Frontend Assets
 
 ```bash
-# One-time build
+# Build CSS and JavaScript bundles
 npm run build:css
+npm run build
 
-# Or watch for changes (recommended during development)
+# Or watch for changes during development
 npm run watch:css
+npm run dev
 ```
 
-### 3. Start the PHP Development Server
+### 3. Configure API Endpoints
+
+Update your API endpoints in `src/auth.js` and `src/ticket.js`:
+
+```javascript
+// src/auth.js
+export const authInstance = axios.create({
+  baseURL: 'https://your-auth-api.com/api/auth',
+  timeout: 8000,
+  headers: {'X-Custom-Header': 'your-auth-token'}
+});
+
+// src/ticket.js
+export const ticketInstance = axios.create({
+  baseURL: 'https://your-tickets-api.com/api/tickets',
+  timeout: 8000,
+  headers: {'Content-Type': 'application/json'}
+});
+```
+
+### 4. Start the Development Server
 
 ```bash
 # Start server from the src directory
 php -S localhost:8000 -t src
 ```
 
-### 4. Open in Browser
+### 5. Open in Browser
 
 Visit [http://localhost:8000](http://localhost:8000) 🎉
 
 ---
 
-## 📁 Project Structure
+##  Project Structure
 
 ```
-twig-starter-template/
+ticketflow/
 ├── src/
 │   ├── index.php              # Main router & entry point
-│   ├── templates/             # Twig template files
-│   │   ├── base.twig         # Base layout (extend this)
-│   │   ├── landing.twig      # Landing page example
-│   │   ├── dashboard.twig    # Dashboard example
-│   │   └── 404.twig          # 404 error page
-│   └── styles/
-│       ├── tailwind.css      # Tailwind input file
-│       └── output.css        # Generated CSS (don't edit)
-├── cache/twig/               # Twig template cache
-├── vendor/                   # Composer dependencies
-├── composer.json             # PHP dependencies
-├── package.json              # Node.js dependencies
-├── postcss.config.js         # PostCSS configuration
-└── README.md                 # You are here!
+│   ├── auth.js               # Authentication API configuration
+│   ├── ticket.js             # Ticket management API configuration
+│   ├── local-server.js       # Alternative Node.js server
+│   ├── templates/            # Twig template files
+│   │   ├── base.twig        # Base layout template
+│   │   ├── landing.twig     # Landing page
+│   │   ├── login.twig       # Login page
+│   │   ├── signup.twig      # Registration page
+│   │   ├── dashboard.twig   # Dashboard overview
+│   │   ├── tickets.twig     # Ticket management interface
+│   │   └── 404.twig         # Error page
+│   ├── styles/              # CSS assets
+│   │   ├── tailwind.css     # Tailwind input
+│   │   └── out.tailwind.css # Compiled CSS
+│   └── public/              # Static assets (images, etc.)
+├── dist/                    # Built JavaScript bundles
+├── cache/twig/              # Twig template cache
+├── vendor/                  # Composer dependencies
+├── composer.json            # PHP dependencies
+├── package.json             # Node.js dependencies & scripts
+├── webpack.config.js        # Webpack configuration
+├── tailwind.config.js       # Tailwind CSS configuration
+└── README.md                # This file
 ```
 
 ---
 
-## 🎨 Twig Basics
+##  Key Features Explained
 
-### What is Twig?
+### Authentication System
+- User registration and login
+- Session management
+- API token handling
+- Secure password validation
 
-Twig is a modern, flexible, and secure templating engine for PHP. It separates your HTML from PHP logic, making your code cleaner and more maintainable.
+### Ticket Management
+- **Create Tickets**: Easy form-based ticket creation
+- **View Tickets**: Detailed ticket information with status badges
+- **Edit Tickets**: Inline editing with modal forms
+- **Delete Tickets**: Confirmation-based deletion
+- **Search & Filter**: Real-time ticket filtering
+- **Status Tracking**: Open, In Progress, Closed states
 
-**Learn more:** [Twig Documentation](https://twig.symfony.com/doc/3.x/)
-
-### Template Inheritance
-
-**Base Template** (`base.twig`):
-
-```twig
-<!DOCTYPE html>
-<html>
-<head>
-    <title>{% block title %}Default Title{% endblock %}</title>
-</head>
-<body>
-    {% block content %}
-        <!-- Content goes here -->
-    {% endblock %}
-</body>
-</html>
-```
-
-**Child Template** (`landing.twig`):
-
-```twig
-{% extends "base.twig" %}
-
-{% block title %}Landing Page{% endblock %}
-
-{% block content %}
-    <h1>Welcome!</h1>
-{% endblock %}
-```
-
-### Common Twig Syntax
-
-```twig
-{# This is a comment #}
-
-{# Variables #}
-{{ variable }}
-{{ user.name }}
-
-{# Control Structures #}
-{% if user.isLoggedIn %}
-    Welcome back!
-{% else %}
-    Please log in.
-{% endif %}
-
-{# Loops #}
-{% for item in items %}
-    <li>{{ item.name }}</li>
-{% endfor %}
-
-{# Filters #}
-{{ name|upper }}
-{{ price|number_format(2) }}
-{{ content|striptags }}
-
-{# Include another template #}
-{% include 'header.twig' %}
-```
+### Dashboard Analytics
+- Total ticket count
+- Open vs resolved tickets
+- Recent activity feed
+- Priority-based organization
 
 ---
 
-## 🛣️ Adding Routes
+##  Configuration
 
-Edit `src/index.php` to add new routes:
+### Environment Variables
 
-```php
-switch($path){
-    case '/':
-    case '/home':
-        echo $twig->render('landing.twig', [
-            'title' => "Landing Page",
-            'user' => ['name' => 'John']
-        ]);
-        break;
+Create a `.env` file in the root directory:
 
-    case '/about':
-        echo $twig->render('about.twig', [
-            'title' => "About Us"
-        ]);
-        break;
+```env
+# API Configuration
+AUTH_API_URL=https://your-auth-api.com
+TICKET_API_URL=https://your-tickets-api.com
+API_TIMEOUT=8000
 
-    default:
-        echo $twig->render('404.twig', [
-            'title' => "404 Not Found"
-        ]);
-}
+# Application Settings
+APP_NAME=TicketFlow
+APP_ENV=development
+APP_DEBUG=true
 ```
-
----
-
-## 🎨 Using Tailwind CSS
-
-### Adding Classes
-
-Just use Tailwind classes in your `.twig` files:
-
-```twig
-<div class="bg-blue-500 text-white p-8 rounded-lg shadow-xl">
-    <h1 class="text-4xl font-bold mb-4">Hello World</h1>
-    <p class="text-lg">Tailwind CSS is awesome!</p>
-</div>
-```
-
-### Auto-rebuild on Changes
-
-Run this during development:
-
-```bash
-npm run watch:css
-```
-
-Now whenever you add/remove Tailwind classes in your `.twig` files, the CSS rebuilds automatically!
-
-**Learn more:** [Tailwind CSS Documentation](https://tailwindcss.com/docs)
-
----
-
-## 🔧 Configuration
 
 ### Twig Configuration
 
-Edit `src/index.php`:
+Located in `src/index.php`:
 
 ```php
 $twig = new \Twig\Environment($loader, [
-    'cache' => __DIR__ . '/../cache/twig',  // Template cache
-    'auto_reload' => true,                   // Auto-refresh in dev
-    'debug' => true,                         // Enable debug mode
+    'cache' => __DIR__ . '/../cache/twig',
+    'auto_reload' => true,
+    'debug' => true,
 ]);
 ```
 
-### Tailwind Configuration
+### Webpack Configuration
 
-For advanced customization, create `tailwind.config.js`:
+Modern ES6 module bundling with Babel transpilation:
 
 ```javascript
 export default {
-  content: ["./src/templates/**/*.twig", "./src/**/*.php"],
-  theme: {
-    extend: {
-      colors: {
-        brand: "#3b82f6",
-      },
-    },
+  mode: 'development',
+  entry: {
+    auth: './src/auth.js',
+    ticket: './src/ticket.js'
   },
+  output: {
+    filename: '[name].bundle.js',
+    path: path.resolve(__dirname, 'src/dist'),
+  }
 };
 ```
 
 ---
 
-## 📚 Resources
+##  Usage Guide
 
-- **Twig Documentation:** [twig.symfony.com/doc](https://twig.symfony.com/doc/3.x/)
-- **Tailwind CSS:** [tailwindcss.com/docs](https://tailwindcss.com/docs)
-- **PHP Manual:** [php.net/manual](https://www.php.net/manual/en/)
-- **Composer:** [getcomposer.org](https://getcomposer.org/)
+### Creating Tickets
+1. Navigate to `/dashboard/tickets`
+2. Fill out the create ticket form at the top
+3. Set priority and status
+4. Click "Create Ticket"
+
+### Managing Tickets
+- **View**: Click the "View" button on any ticket card
+- **Edit**: Click the "Edit" button to modify ticket details
+- **Delete**: Click the "Delete" button and confirm
+- **Search**: Use the search bar to filter tickets
+
+### API Integration
+The app integrates with external APIs for:
+- User authentication
+- Ticket CRUD operations
+- Real-time data synchronization
 
 ---
 
-## 🤝 Contributing
+##  Technologies Used
 
-Feel free to fork this template and make it your own! Pull requests are welcome.
+- **Backend**: PHP 8.0+ with Twig templating
+- **Frontend**: HTML5, Tailwind CSS, JavaScript (ES6)
+- **Build Tools**: Webpack, Babel, PostCSS
+- **API Client**: Axios for HTTP requests
+- **Icons**: Heroicons (SVG-based icon system)
+- **Styling**: Utility-first CSS framework
 
 ---
 
-## 📄 License
+##  Available Scripts
 
-This project is open source and available under the [MIT License](LICENSE).
+```bash
+# Install dependencies
+composer install
+npm install
+
+# Build assets
+npm run build:css      # Compile Tailwind CSS
+npm run build          # Bundle JavaScript
+npm run dev           # Watch mode for development
+
+# Start development server
+php -S localhost:8000 -t src
+
+# Clean build artifacts
+npm run clean
+```
 
 ---
 
-**Built with ❤️ by [uCodes](https://github.com/ucodes)**
+##  API Documentation
 
-_Happy coding! 🚀_
+### Authentication Endpoints
+- `POST /api/auth/login` - User login
+- `POST /api/auth/register` - User registration
+- `POST /api/auth/logout` - User logout
+
+### Ticket Endpoints
+- `GET /api/tickets` - List all tickets
+- `POST /api/tickets` - Create new ticket
+- `GET /api/tickets/:id` - Get ticket details
+- `PUT /api/tickets/:id` - Update ticket
+- `DELETE /api/tickets/:id` - Delete ticket

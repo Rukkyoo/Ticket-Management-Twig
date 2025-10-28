@@ -1,0 +1,710 @@
+{% extends "base.twig" %}
+
+{% block title %}Ticket Management - TicketFlow{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gray-50">
+  <!-- Header -->
+  <header class="bg-white border-b border-gray-200 px-8 py-4">
+    <div class="flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 flex items-center justify-center">
+          <img src="/Ticket.png" alt="TicketFlow Logo" class="w-full h-full object-contain">
+        </div>
+        <span class="text-xl font-bold text-gray-900">TicketFlow</span>
+      </div>
+
+      <div class="flex items-center gap-6">
+        <a href="/dashboard" class="flex items-center gap-2 text-gray-700 hover:text-gray-900 font-medium transition-colors">
+          Dashboard
+        </a>
+        <a href="/dashboard/tickets" class="flex items-center gap-2 text-blue-600 hover:text-blue-700 font-medium transition-colors">
+          Ticket Management
+        </a>
+
+        <form method="POST" action="/api/logout" class="inline">
+          <button type="submit" class="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15M12 9l3 3m0 0-3 3m3-3H2.25"/>
+            </svg>
+            Logout
+          </button>
+        </form>
+      </div>
+    </div>
+  </header>
+
+  <div class="flex flex-1">
+    <!-- Sidebar -->
+    <aside class="w-72 bg-blue-50 min-h-screen p-6 border-r border-gray-200">
+      <div class="mb-8">
+        <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-4">Navigation</h3>
+
+        <nav class="space-y-2">
+          <a href="/dashboard" class="w-full flex items-center gap-3 px-4 py-3 rounded-lg font-medium text-sm transition-all text-gray-700 hover:bg-blue-100">
+            Dashboard
+          </a>
+
+          <a href="/dashboard/tickets" class="w-full flex items-center gap-3 px-4 py-3 rounded-lg font-medium text-sm transition-all bg-blue-600 text-white shadow-md">
+            Ticket Management
+          </a>
+        </nav>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 p-8">
+      <div class="max-w-7xl mx-auto">
+        <!-- Page Header -->
+        <div class="mb-8">
+          <h1 class="text-4xl font-bold text-gray-900 mb-2">Ticket Management</h1>
+          <p class="text-gray-600">Create, review, update, and delete tickets</p>
+        </div>
+
+        <!-- Search and Actions -->
+        <div class="flex items-center gap-4 mb-8">
+          <div class="flex-1 relative">
+            <input
+              id="searchQuery"
+              type="text"
+              placeholder="Search by title or ID..."
+              class="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
+            />
+          </div>
+          <button id="filterBtn" class="flex items-center gap-2 bg-white border border-gray-300 px-6 py-3 rounded-lg font-semibold text-gray-700 hover:bg-gray-50 transition-colors">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"/>
+            </svg>
+            <span>Filters</span>
+          </button>
+          <button id="newTicketBtn" class="flex items-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+            </svg>
+            <span>New Ticket</span>
+          </button>
+        </div>
+
+        <!-- Create Ticket Form -->
+        <div id="createForm" class="bg-white rounded-xl shadow-sm p-6 mb-8">
+          <h2 class="text-xl font-bold text-gray-900 mb-4">Create Ticket</h2>
+          <form id="ticketForm" class="space-y-4">
+            <div>
+              <label for="name" class="block text-sm font-semibold text-gray-900 mb-2">Title</label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                class="w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
+                placeholder="Enter concise, descriptive title"
+                required
+              />
+            </div>
+
+            <div>
+              <label for="description" class="block text-sm font-semibold text-gray-900 mb-2">Description</label>
+              <textarea
+                id="description"
+                name="description"
+                rows="3"
+                class="w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
+                placeholder="Describe the issue, steps to reproduce, expected vs actual"
+              ></textarea>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <label for="status" class="block text-sm font-semibold text-gray-900 mb-2">Status</label>
+                <select
+                  id="status"
+                  name="status"
+                  class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
+                >
+                  <option value="OPEN">Open</option>
+                  <option value="IN_PROGRESS">In Progress</option>
+                  <option value="CLOSED">Closed</option>
+                </select>
+              </div>
+
+              <div>
+                <label for="priority" class="block text-sm font-semibold text-gray-900 mb-2">Priority</label>
+                <select
+                  id="priority"
+                  name="priority"
+                  class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
+                >
+                  <option value="HIGH">High</option>
+                  <option value="MEDIUM">Medium</option>
+                  <option value="LOW">Low</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="flex gap-2 pt-4">
+              <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-700">
+                Create Ticket
+              </button>
+              <button type="button" id="cancelCreate" class="bg-gray-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-gray-700">
+                Cancel
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Bulk Actions -->
+        <div class="bg-white border border-gray-200 rounded-lg p-4 mb-6">
+          <div class="flex items-center gap-4">
+            <span class="text-sm font-semibold text-gray-900">Bulk Actions</span>
+            <button class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 rounded transition-colors">
+              Change Status
+            </button>
+            <button class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 rounded transition-colors">
+              Reassign
+            </button>
+            <button class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-red-600 hover:bg-red-50 rounded transition-colors">
+              Delete
+            </button>
+            <span class="text-sm text-gray-500 ml-auto">
+              Select tickets below to apply bulk actions
+            </span>
+          </div>
+        </div>
+
+        <!-- Tickets List -->
+        <div class="mb-6">
+          <h2 class="text-xl font-bold text-gray-900 mb-4">All Tickets</h2>
+          <div id="ticketsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Tickets will be populated by JavaScript -->
+          </div>
+          <div id="noTickets" class="text-center py-12 text-gray-500">
+            No tickets found
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- Edit Modal -->
+<div id="editModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+  <div class="bg-white rounded-lg p-6 max-w-md w-full mx-4">
+    <h3 class="text-lg font-semibold mb-4" id="editModalTitle">Edit Ticket</h3>
+    <form id="editForm" class="space-y-4">
+      <input type="hidden" id="editTicketId" name="id">
+      <div>
+        <label for="editName" class="block text-sm font-semibold text-gray-900 mb-2">Title</label>
+        <input
+          type="text"
+          id="editName"
+          name="name"
+          class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
+          required
+        />
+      </div>
+
+      <div>
+        <label for="editDescription" class="block text-sm font-semibold text-gray-900 mb-2">Description</label>
+        <textarea
+          id="editDescription"
+          name="description"
+          rows="4"
+          class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
+          required
+        ></textarea>
+      </div>
+
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <label for="editStatus" class="block text-sm font-semibold text-gray-900 mb-2">Status</label>
+          <select
+            id="editStatus"
+            name="status"
+            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
+          >
+            <option value="OPEN">Open</option>
+            <option value="IN_PROGRESS">In Progress</option>
+            <option value="CLOSED">Closed</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="editPriority" class="block text-sm font-semibold text-gray-900 mb-2">Priority</label>
+          <select
+            id="editPriority"
+            name="priority"
+            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
+          >
+            <option value="LOW">Low</option>
+            <option value="MEDIUM">Medium</option>
+            <option value="HIGH">High</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="flex gap-2 pt-4">
+        <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-700">
+          Save Changes
+        </button>
+        <button type="button" id="cancelEdit" class="bg-gray-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-gray-700">
+          Cancel
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- View Modal -->
+<div id="viewModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+  <div class="bg-white rounded-lg p-6 max-w-md w-full mx-4">
+    <h3 class="text-lg font-semibold mb-4" id="viewModalTitle">View Ticket</h3>
+    <div class="space-y-4">
+      <div>
+        <h4 class="text-sm font-semibold text-gray-900 mb-1">Title</h4>
+        <p id="viewName" class="text-gray-700"></p>
+      </div>
+      <div>
+        <h4 class="text-sm font-semibold text-gray-900 mb-1">Description</h4>
+        <p id="viewDescription" class="text-gray-700"></p>
+      </div>
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <h4 class="text-sm font-semibold text-gray-900 mb-1">Priority</h4>
+          <p id="viewPriority" class="text-gray-700"></p>
+        </div>
+        <div>
+          <h4 class="text-sm font-semibold text-gray-900 mb-1">Status</h4>
+          <p id="viewStatus" class="text-gray-700"></p>
+        </div>
+      </div>
+      <div>
+        <h4 class="text-sm font-semibold text-gray-900 mb-1">Assignee</h4>
+        <p id="viewAssignee" class="text-gray-700"></p>
+      </div>
+    </div>
+    <div class="flex justify-end mt-6">
+      <button id="closeView" class="px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700">
+        Close
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div id="deleteModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+  <div class="bg-white rounded-lg p-6 max-w-md w-full mx-4">
+    <h3 class="text-lg font-semibold mb-4">Delete Ticket</h3>
+    <p id="deleteMessage" class="text-gray-700 mb-4"></p>
+    <div class="flex gap-2">
+      <button id="confirmDelete" class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700">
+        Delete
+      </button>
+      <button id="cancelDelete" class="px-4 py-2 text-gray-600 hover:bg-gray-50 rounded">
+        Cancel
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast Notification -->
+<div id="toast" class="fixed top-4 right-4 z-50 hidden">
+  <div id="toastContent" class="rounded-lg shadow-lg p-4 max-w-sm bg-blue-500">
+    <div class="flex items-center gap-2">
+      <span class="text-white">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+        </svg>
+      </span>
+      <span id="toastMessage" class="text-sm text-white font-medium"></span>
+      <button id="closeToast" class="ml-auto text-white hover:text-gray-200">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{{ parent() }}
+<script>
+// Import our API instances
+const { authInstance } = window.authInstance || {};
+const { ticketInstance } = window.ticketInstance || {};
+
+let tickets = [];
+let editingTicket = null;
+let deletingTicket = null;
+let viewingTicket = null;
+
+// DOM Elements
+const searchQuery = document.getElementById('searchQuery');
+const newTicketBtn = document.getElementById('newTicketBtn');
+const createForm = document.getElementById('createForm');
+const ticketForm = document.getElementById('ticketForm');
+const cancelCreate = document.getElementById('cancelCreate');
+const ticketsGrid = document.getElementById('ticketsGrid');
+const noTickets = document.getElementById('noTickets');
+const editModal = document.getElementById('editModal');
+const editForm = document.getElementById('editForm');
+const cancelEdit = document.getElementById('cancelEdit');
+const viewModal = document.getElementById('viewModal');
+const closeView = document.getElementById('closeView');
+const deleteModal = document.getElementById('deleteModal');
+const confirmDelete = document.getElementById('confirmDelete');
+const cancelDelete = document.getElementById('cancelDelete');
+const toast = document.getElementById('toast');
+const toastMessage = document.getElementById('toastMessage');
+const closeToast = document.getElementById('closeToast');
+
+// Initialize
+document.addEventListener('DOMContentLoaded', function() {
+  loadTickets();
+  setupEventListeners();
+});
+
+function setupEventListeners() {
+  // Search functionality
+  searchQuery.addEventListener('input', filterTickets);
+
+  // New ticket button
+  newTicketBtn.addEventListener('click', () => {
+    createForm.classList.remove('hidden');
+    newTicketBtn.style.display = 'none';
+  });
+
+  // Cancel create
+  cancelCreate.addEventListener('click', () => {
+    createForm.classList.add('hidden');
+    newTicketBtn.style.display = 'flex';
+    ticketForm.reset();
+  });
+
+  // Create ticket form
+  ticketForm.addEventListener('submit', handleCreateTicket);
+
+  // Edit form
+  editForm.addEventListener('submit', handleEditTicket);
+  cancelEdit.addEventListener('click', () => {
+    editModal.classList.add('hidden');
+    editingTicket = null;
+  });
+
+  // View modal
+  closeView.addEventListener('click', () => {
+    viewModal.classList.add('hidden');
+    viewingTicket = null;
+  });
+
+  // Delete modal
+  confirmDelete.addEventListener('click', handleDeleteTicket);
+  cancelDelete.addEventListener('click', () => {
+    deleteModal.classList.add('hidden');
+    deletingTicket = null;
+  });
+
+  // Toast
+  closeToast.addEventListener('click', () => {
+    toast.classList.add('hidden');
+  });
+}
+
+async function loadTickets() {
+  try {
+    // Try to load tickets from API first, fall back to empty array if no API
+    tickets = [];
+    renderTickets();
+  } catch (error) {
+    console.error('Error loading tickets:', error);
+    tickets = [];
+    renderTickets();
+    showToast('Failed to load tickets', 'error');
+  }
+}
+
+function renderTickets() {
+  const filteredTickets = getFilteredTickets();
+
+  if (filteredTickets.length === 0) {
+    noTickets.style.display = 'block';
+    ticketsGrid.innerHTML = '';
+    return;
+  }
+
+  noTickets.style.display = 'none';
+
+  ticketsGrid.innerHTML = filteredTickets.map(ticket => `
+    <div class="bg-white border border-gray-200 rounded-lg p-5 hover:shadow-md transition-shadow">
+      <!-- Header -->
+      <div class="flex items-start justify-between mb-3">
+        <div class="flex-1">
+          <div class="flex items-center gap-2 mb-2">
+            <span class="text-sm font-semibold text-gray-500">#${ticket.id.slice(-4)}</span>
+            <span class="text-sm text-gray-400">•</span>
+            <span class="text-sm font-semibold text-gray-900">${ticket.name}</span>
+          </div>
+          <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusClasses(ticket.status)}">
+            ${getStatusText(ticket.status)}
+          </span>
+        </div>
+      </div>
+
+      <!-- Details -->
+      <div class="space-y-2 mb-4">
+        <div class="flex items-center justify-between text-sm">
+          <span class="text-gray-600">Priority</span>
+          <span class="font-semibold text-gray-900">${ticket.priority}</span>
+        </div>
+
+        <div class="flex items-center justify-between text-sm">
+          <span class="text-gray-600">Description</span>
+          <div class="flex items-center gap-2">
+            <span class="text-gray-900">${ticket.description}</span>
+          </div>
+        </div>
+
+        ${ticket.tags && ticket.tags.length > 0 ? `
+        <div class="flex items-start justify-between text-sm">
+          <span class="text-gray-600">Tags</span>
+          <div class="flex flex-wrap gap-1 justify-end">
+            ${ticket.tags.map(tag => `<span class="px-2 py-0.5 bg-blue-50 text-blue-700 rounded text-xs">${tag}</span>`).join('')}
+          </div>
+        </div>
+        ` : ''}
+      </div>
+
+      <!-- Actions -->
+      <div class="flex items-center gap-2 pt-3 border-t border-gray-100">
+        <button onclick="editTicket('${ticket.id}')" class="flex items-center gap-1 px-3 py-1.5 text-sm font-medium text-gray-700 hover:bg-gray-50 rounded transition-colors">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+          </svg>
+          <span>Edit</span>
+        </button>
+        <button onclick="viewTicket('${ticket.id}')" class="flex items-center gap-1 px-3 py-1.5 text-sm font-medium text-gray-700 hover:bg-gray-50 rounded transition-colors">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+          </svg>
+          <span>View</span>
+        </button>
+        <button onclick="deleteTicket('${ticket.id}')" class="flex items-center gap-1 px-3 py-1.5 text-sm font-medium text-red-600 hover:bg-red-50 rounded transition-colors ml-auto">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+          </svg>
+          <span>Delete</span>
+        </button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function getFilteredTickets() {
+  const query = searchQuery.value.toLowerCase();
+  return tickets.filter(ticket => {
+    return (
+      (ticket.name && ticket.name.toLowerCase().includes(query)) ||
+      (ticket.id && ticket.id.toLowerCase().includes(query))
+    );
+  });
+}
+
+function filterTickets() {
+  renderTickets();
+}
+
+function getStatusClasses(status) {
+  const baseClasses = 'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium';
+
+  switch (status) {
+    case 'OPEN':
+      return `${baseClasses} bg-green-100 text-green-700 border-green-200`;
+    case 'IN_PROGRESS':
+      return `${baseClasses} bg-amber-100 text-amber-700 border-amber-200`;
+    case 'CLOSED':
+      return `${baseClasses} bg-gray-100 text-gray-700 border-gray-200`;
+    default:
+      return `${baseClasses} bg-gray-100 text-gray-700 border-gray-200`;
+  }
+}
+
+function getStatusText(status) {
+  switch (status) {
+    case 'OPEN': return 'Open';
+    case 'IN_PROGRESS': return 'In Progress';
+    case 'CLOSED': return 'Closed';
+    default: return status;
+  }
+}
+
+function getPriorityColor(priority) {
+  switch (priority) {
+    case 'HIGH': return 'bg-red-100 text-red-800';
+    case 'MEDIUM': return 'bg-orange-100 text-orange-800';
+    case 'LOW': return 'bg-blue-100 text-blue-800';
+    default: return 'bg-gray-100 text-gray-800';
+  }
+}
+
+async function handleCreateTicket(e) {
+  e.preventDefault();
+
+  const formData = new FormData(ticketForm);
+  const ticketData = {
+    name: formData.get('name'),
+    description: formData.get('description'),
+    status: formData.get('status'),
+    priority: formData.get('priority')
+  };
+
+  try {
+    // Try to use the ticket API if available
+    if (ticketInstance) {
+      await ticketInstance.post('', ticketData);
+    }
+
+    // Add to local tickets array
+    const newTicket = {
+      id: Date.now().toString(),
+      ...ticketData,
+      assignee: '',
+      tags: []
+    };
+
+    tickets.unshift(newTicket);
+    renderTickets();
+
+    // Reset form and hide
+    ticketForm.reset();
+    createForm.classList.add('hidden');
+    newTicketBtn.style.display = 'flex';
+
+    showToast('Ticket created successfully', 'success');
+  } catch (error) {
+    console.error('Error creating ticket:', error);
+    showToast('Failed to create ticket', 'error');
+  }
+}
+
+async function handleEditTicket(e) {
+  e.preventDefault();
+
+  if (!editingTicket) return;
+
+  const formData = new FormData(editForm);
+  const ticketData = {
+    name: formData.get('name'),
+    description: formData.get('description'),
+    status: formData.get('status'),
+    priority: formData.get('priority')
+  };
+
+  try {
+    // Update in local array
+    const index = tickets.findIndex(t => t.id === editingTicket.id);
+    if (index !== -1) {
+      tickets[index] = { ...tickets[index], ...ticketData };
+      renderTickets();
+    }
+
+    // Try to update via API
+    if (ticketInstance) {
+      await ticketInstance.put(`/${editingTicket.name}`, ticketData);
+    }
+
+    editModal.classList.add('hidden');
+    editingTicket = null;
+    showToast('Ticket updated successfully', 'success');
+  } catch (error) {
+    console.error('Error updating ticket:', error);
+    showToast('Failed to update ticket', 'error');
+  }
+}
+
+async function handleDeleteTicket() {
+  if (!deletingTicket) return;
+
+  try {
+    // Remove from local array
+    tickets = tickets.filter(t => t.id !== deletingTicket.id);
+    renderTickets();
+
+    // Try to delete via API
+    if (ticketInstance) {
+      await ticketInstance.delete(`/${deletingTicket.name}`);
+    }
+
+    deleteModal.classList.add('hidden');
+    deletingTicket = null;
+    showToast('Ticket deleted successfully', 'success');
+  } catch (error) {
+    console.error('Error deleting ticket:', error);
+    showToast('Failed to delete ticket', 'error');
+  }
+}
+
+// Global functions for onclick handlers
+window.viewTicket = function(id) {
+  viewingTicket = tickets.find(t => t.id === id);
+  if (viewingTicket) {
+    document.getElementById('viewModalTitle').textContent = `Ticket #${viewingTicket.id}`;
+    document.getElementById('viewName').textContent = viewingTicket.name;
+    document.getElementById('viewDescription').textContent = viewingTicket.description;
+    document.getElementById('viewPriority').textContent = viewingTicket.priority;
+    document.getElementById('viewStatus').textContent = viewingTicket.status;
+    document.getElementById('viewAssignee').textContent = viewingTicket.assignee || 'Unassigned';
+    viewModal.classList.remove('hidden');
+  }
+};
+
+window.editTicket = function(id) {
+  editingTicket = tickets.find(t => t.id === id);
+  if (editingTicket) {
+    document.getElementById('editModalTitle').textContent = `Edit Ticket #${editingTicket.id}`;
+    document.getElementById('editTicketId').value = editingTicket.id;
+    document.getElementById('editName').value = editingTicket.name;
+    document.getElementById('editDescription').value = editingTicket.description;
+    document.getElementById('editStatus').value = editingTicket.status;
+    document.getElementById('editPriority').value = editingTicket.priority;
+    editModal.classList.remove('hidden');
+  }
+};
+
+window.deleteTicket = function(id) {
+  deletingTicket = tickets.find(t => t.id === id);
+  if (deletingTicket) {
+    document.getElementById('deleteMessage').textContent = `Are you sure you want to delete "${deletingTicket.name}"?`;
+    deleteModal.classList.remove('hidden');
+  }
+};
+
+function showToast(message, type = 'info') {
+  toastMessage.textContent = message;
+
+  const toastContent = document.getElementById('toastContent');
+  toastContent.className = `rounded-lg shadow-lg p-4 max-w-sm ${
+    type === 'success' ? 'bg-green-500' :
+    type === 'error' ? 'bg-red-500' : 'bg-blue-500'
+  }`;
+
+  // Update icon based on type
+  const iconSvg = toastContent.querySelector('svg path');
+  if (iconSvg) {
+    if (type === 'success') {
+      iconSvg.setAttribute('d', 'M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z');
+    } else if (type === 'error') {
+      iconSvg.setAttribute('d', 'M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z');
+    } else {
+      iconSvg.setAttribute('d', 'M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z');
+    }
+  }
+
+  toast.classList.remove('hidden');
+
+  // Auto hide after 5 seconds
+  setTimeout(() => {
+    toast.classList.add('hidden');
+  }, 5000);
+}
+</script>
+{% endblock %}

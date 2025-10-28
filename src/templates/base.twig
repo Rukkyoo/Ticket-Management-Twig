@@ -6,7 +6,6 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>{% block title %}Twig Starter Template{% endblock %}</title>
         {% block styles %}
-            {{ parent() }}
             <link rel="stylesheet" href="/styles/out.tailwind.css">
         {% endblock %}
     </head>
@@ -18,7 +17,8 @@
         
         {% block scripts %}
             {# Import or write javascript directly inhere #}
-            {# <script src="script.js"></script> #}
+            <script src="/dist/auth.bundle.js"></script>
+            <script src="/dist/ticket.bundle.js"></script>
         {% endblock %}
     </body>
 </html>
