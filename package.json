@@ -5,12 +5,14 @@
   "author": "uCodes",
   "type": "module",
   "scripts": {
+    "build": "webpack",
+    "dev": "webpack --mode=development --watch",
     "build:css": "postcss src/styles/tailwind.css -o src/styles/out.tailwind.css",
     "watch:css": "postcss src/styles/tailwind.css -o src/styles/out.tailwind.css --watch",
+    "prebuild": "npm run build:css",
+    "clean": "rm -rf dist/ src/styles/out.tailwind.css",
     "start:api": "node src/local-server.js",
-    "start:web": "php -S localhost:8000 -t src",
-    "dev": "concurrently \"npm run watch:css\" \"npm run start:api\"",
-    "build": "npm run build:css"
+    "start:web": "php -S localhost:8000 -t src"
   },
   "devDependencies": {
     "@babel/core": "^7.28.5",

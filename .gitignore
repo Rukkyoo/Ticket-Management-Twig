@@ -37,6 +37,7 @@ yarn-error.log*
 /dist/
 /build/
 /cache/
+src/styles/out.tailwind.css
 
 # Logs, test output, coverage
 *.log

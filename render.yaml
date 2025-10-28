@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: ticketflow
+    runtime: php
+    buildCommand: |
+      composer install --no-dev --optimize-autoloader
+      npm install
+      npm run build:css
+      npm run build
+    startCommand: php -S 0.0.0.0:$PORT -t src
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: false
