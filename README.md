@@ -1,4 +1,4 @@
-# TicketFlow - Modern Ticket Management System 🎫
+# TicketFlow - Modern Ticket Management System 
 
 A comprehensive ticket management application built with PHP, Twig templating, and Tailwind CSS. Features a clean, modern interface for creating, managing, and tracking support tickets with real-time API integration.
 
@@ -53,7 +53,7 @@ Before you begin, ensure you have the following installed:
 
 ```bash
 # Clone the repository
-git clone <your-repo-url>
+git clone <(https://github.com/Rukkyoo/Ticket-Management-Twig)>
 cd ticketflow
 
 # Install PHP dependencies
