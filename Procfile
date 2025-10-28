@@ -1,1 +1,1 @@
-web: php -S localhost:8000 -t src
+web: php -S 0.0.0.0:$PORT -t src

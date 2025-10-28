@@ -11,6 +11,7 @@
     "watch:css": "postcss src/styles/tailwind.css -o src/styles/out.tailwind.css --watch",
     "prebuild": "npm run build:css",
     "clean": "rm -rf dist/ src/styles/out.tailwind.css",
+    "start": "php -S 0.0.0.0:$PORT -t src",
     "start:api": "node src/local-server.js",
     "start:web": "php -S localhost:8000 -t src"
   },

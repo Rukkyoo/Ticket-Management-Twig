@@ -5,6 +5,7 @@ $loader = new \Twig\Loader\FilesystemLoader(__DIR__ . '/templates');
 $twig = new \Twig\Environment($loader,[
     'cache' => __DIR__ . '/../cache/twig',
     'auto_reload' => true,
+    'debug' => getenv('APP_DEBUG') ?: true,
 ]);
 
 $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
