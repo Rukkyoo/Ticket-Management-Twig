@@ -1,6 +1,6 @@
 {
-  "name": "ucodes/twig-starter-template",
-  "description": "This is a starter template built with love by uCodes to speed up twig development.",
+  "name": "twig-starter-template",
+  "description": "This is a starter template to speed up twig development.",
   "type": "project",
   "require": {
     "twig/twig": "^3.0"
